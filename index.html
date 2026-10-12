@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aetheris | Global Weather Intelligence &amp; Meteorological Suite</title>
+
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Ambient Glow Effects -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <!-- Main Container -->
+  <div class="app-container">
+    
+    <!-- Sidebar / Search & Hubs -->
+    <aside class="sidebar">
+      <div class="brand-box">
+        <div class="brand-icon"><i class="fa-solid fa-cloud-sun-rain"></i></div>
+        <div class="brand-text">
+          <h1>Aetheris<span>Weather</span></h1>
+          <p>Meteorological Intelligence</p>
+        </div>
+      </div>
+
+      <!-- Search Form -->
+      <form class="search-form" id="searchForm">
+        <div class="search-input-wrapper">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="cityInput" placeholder="Search city worldwide (e.g. Tokyo, London)..." autocomplete="off">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Query Station</button>
+      </form>
+
+      <!-- Quick Select Cities -->
+      <div class="quick-cities">
+        <h3>Global Hubs</h3>
+        <div class="city-chips" id="quickCities">
+          <button class="city-chip" data-city="London" data-lat="51.5074" data-lon="-0.1278">London</button>
+          <button class="city-chip" data-city="Tokyo" data-lat="35.6762" data-lon="139.6503">Tokyo</button>
+          <button class="city-chip" data-city="New York" data-lat="40.7128" data-lon="-74.0060">New York</button>
+          <button class="city-chip" data-city="Sydney" data-lat="-33.8688" data-lon="151.2093">Sydney</button>
+          <button class="city-chip" data-city="Dubai" data-lat="25.2048" data-lon="55.2708">Dubai</button>
+          <button class="city-chip" data-city="Paris" data-lat="48.8566" data-lon="2.3522">Paris</button>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <p>Data Feed: Open-Meteo High-Resolution API</p>
+      </div>
+    </aside>
+
+    <!-- Main Weather Display Area -->
+    <main class="main-content">
+      
+      <!-- Top Bar Status -->
+      <header class="top-header">
+        <div class="location-display">
+          <i class="fa-solid fa-location-dot"></i>
+          <span id="cityName">London, United Kingdom</span>
+          <span class="country-tag" id="countryTag">GB</span>
+        </div>
+        <div class="time-display">
+          <i class="fa-regular fa-clock"></i>
+          <span id="currentTime">Loading telemetry...</span>
+        </div>
+      </header>
+
+      <!-- Loading State Overlay -->
+      <div class="loader-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <p>Fetching meteorological telemetry...</p>
+      </div>
+
+      <!-- Current Weather Hero Card -->
+      <section class="weather-hero-card">
+        <div class="hero-left">
+          <div class="condition-badge" id="conditionBadge">
+            <i class="fa-solid fa-sun"></i> <span id="conditionText">Clear Sky</span>
+          </div>
+          <div class="temp-display">
+            <span id="currentTemp">22</span><span class="temp-unit">°C</span>
+          </div>
+          <p class="feels-like">Feels like <span id="feelsLikeTemp">21</span>°C &bull; High <span id="maxTemp">25</span>° / Low <span id="minTemp">14</span>°</p>
+        </div>
+        <div class="hero-right">
+          <div class="weather-icon-large" id="heroIconContainer">
+            <i class="fa-solid fa-sun sunny"></i>
+          </div>
+        </div>
+      </section>
+
+      <!-- Advanced Atmospheric Metrics Grid -->
+      <section class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-icon"><i class="fa-solid fa-wind"></i></div>
+          <div class="metric-info">
+            <span class="metric-label">Wind Velocity</span>
+            <span class="metric-value" id="windSpeed">12 km/h</span>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon"><i class="fa-solid fa-droplet"></i></div>
+          <div class="metric-info">
+            <span class="metric-label">Humidity</span>
+            <span class="metric-value" id="humidity">58%</span>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon"><i class="fa-solid fa-gauge-high"></i></div>
+          <div class="metric-info">
+            <span class="metric-label">Pressure</span>
+            <span class="metric-value" id="pressure">1013 hPa</span>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon"><i class="fa-solid fa-sun"></i></div>
+          <div class="metric-info">
+            <span class="metric-label">UV Index</span>
+            <span class="metric-value" id="uvIndex">4.2 (Moderate)</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7-Day Extended Forecast Matrix -->
+      <section class="forecast-section">
+        <h3>7-Day Extended Forecast</h3>
+        <div class="forecast-grid" id="forecastGrid">
+          <!-- Dynamically Injected Forecast Cards -->
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Notification Toast -->
+  <div class="toast" id="toastNotification">City telemetry updated successfully</div>
+
+  <!-- Main JavaScript File -->
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
